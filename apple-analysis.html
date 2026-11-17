@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>애플 기업 분석</title>
+<style>
+  :root {
+    --bg: #f6f6f4; --surface: #ffffff; --text: #1d1d1f; --muted: #6e6e73;
+    --line: #e2e2df; --accent: #2a62c9; --accent-soft: #dbe6fa;
+    --pos: #1f7a4d; --warn: #b4531a; --high: #b42318;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121214; --surface: #1c1c1f; --text: #f2f2f4; --muted: #9a9aa2;
+      --line: #2e2e33; --accent: #7aa5f0; --accent-soft: #23324f;
+      --pos: #5cc28c; --warn: #e59a5f; --high: #f0776c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+    line-height: 1.6; font-size: 16px;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 40px 16px 64px; }
+  header { margin-bottom: 28px; }
+  .eyebrow { color: var(--muted); font-size: 13px; letter-spacing: .04em; }
+  h1 { font-size: 34px; margin: 4px 0 8px; letter-spacing: -.02em; }
+  .lede { color: var(--muted); margin: 0; max-width: 680px; }
+  nav { display: flex; gap: 8px; flex-wrap: wrap; margin: 20px 0 0; }
+  nav a {
+    font-size: 14px; color: var(--accent); text-decoration: none;
+    border: 1px solid var(--line); background: var(--surface);
+    padding: 6px 12px; border-radius: 999px;
+  }
+  nav a:hover { border-color: var(--accent); }
+  section {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px; margin-top: 20px;
+  }
+  h2 { font-size: 21px; margin: 0 0 16px; display: flex; align-items: baseline; gap: 10px; }
+  h2 .num { color: var(--accent); font-variant-numeric: tabular-nums; font-size: 15px; }
+  h3 { font-size: 15px; margin: 22px 0 10px; color: var(--muted); font-weight: 600; }
+  p { margin: 0 0 12px; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 0; }
+  .facts div { border-top: 1px solid var(--line); padding-top: 8px; }
+  .facts dt { font-size: 12px; color: var(--muted); }
+  .facts dd { margin: 2px 0 0; font-weight: 600; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .kpi { border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+  .kpi .label { font-size: 13px; color: var(--muted); }
+  .kpi .value { font-size: 26px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .kpi .delta { font-size: 13px; color: var(--pos); }
+  .bars { display: grid; gap: 8px; }
+  .bar-row { display: grid; grid-template-columns: 74px 1fr 84px; align-items: center; gap: 10px; font-size: 14px; }
+  .bar-row .track { background: var(--accent-soft); border-radius: 4px; height: 16px; overflow: hidden; }
+  .bar-row .fill { background: var(--accent); height: 100%; border-radius: 4px; }
+  .bar-row .v { text-align: right; font-variant-numeric: tabular-nums; }
+  .bar-row .lbl { color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--muted); font-weight: 600; font-size: 13px; }
+  .table-scroll { overflow-x: auto; }
+  .news { list-style: none; margin: 0; padding: 0; }
+  .news li { display: grid; grid-template-columns: 92px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .news li:last-child { border-bottom: 0; }
+  .news time { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; padding-top: 2px; }
+  .news strong { display: block; }
+  .news span { color: var(--muted); font-size: 14px; }
+  .risks { display: grid; gap: 10px; }
+  .risk { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .risk-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+  .risk-head strong { font-size: 15px; }
+  .tag { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+  .tag.high { color: var(--high); }
+  .tag.mid { color: var(--warn); }
+  .risk p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+  .note { font-size: 13px; color: var(--muted); }
+  footer { margin-top: 28px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+  @media (max-width: 560px) {
+    h1 { font-size: 28px; }
+    section { padding: 18px; }
+    .news li { grid-template-columns: 1fr; gap: 2px; }
+    .bar-row { grid-template-columns: 64px 1fr 72px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">기업 분석 · NASDAQ: AAPL · 2026년 11월 17일 기준</div>
+    <h1>Apple Inc.</h1>
+    <p class="lede">하드웨어·소프트웨어·서비스를 하나의 생태계로 묶어 고마진 반복 매출을 만드는 세계 최대 소비자 기술 기업. FY2026(2026년 9월 마감)에 사상 최대 매출을 기록했다.</p>
+    <nav>
+      <a href="#overview">1. 회사 개요</a>
+      <a href="#financials">2. 재무 요약</a>
+      <a href="#news">3. 최근 뉴스</a>
+      <a href="#risks">4. 리스크</a>
+    </nav>
+  </header>
+
+  <section id="overview">
+    <h2><span class="num">01</span>회사 개요</h2>
+    <p>애플은 iPhone을 중심으로 Mac, iPad, 웨어러블(Apple Watch·AirPods·Vision Pro), 홈 기기를 판매하고, 그 설치 기반 위에서 App Store·iCloud·Apple Music·Apple Pay·AppleCare 등 서비스 매출을 키우고 있다. 자체 설계 칩(Apple Silicon)과 운영체제를 함께 통제하는 수직 통합 구조가 핵심 경쟁력이다.</p>
+    <dl class="facts">
+      <div><dt>설립</dt><dd>1976년</dd></div>
+      <div><dt>본사</dt><dd>미국 캘리포니아주 쿠퍼티노</dd></div>
+      <div><dt>CEO</dt><dd>팀 쿡 (2011~)</dd></div>
+      <div><dt>회계연도 마감</dt><dd>9월 마지막 토요일</dd></div>
+      <div><dt>주력 제품</dt><dd>iPhone (매출 약 절반)</dd></div>
+      <div><dt>성장 축</dt><dd>서비스 (고마진)</dd></div>
+    </dl>
+    <h3>사업 부문별 매출 비중 (FY2025, 총 $416.2B)</h3>
+    <div class="bars">
+      <div class="bar-row"><span class="lbl">iPhone</span><div class="track"><div class="fill" style="width:50.4%"></div></div><span class="v">$209.6B</span></div>
+      <div class="bar-row"><span class="lbl">서비스</span><div class="track"><div class="fill" style="width:26.2%"></div></div><span class="v">$109.2B</span></div>
+      <div class="bar-row"><span class="lbl">웨어러블</span><div class="track"><div class="fill" style="width:8.6%"></div></div><span class="v">$35.7B</span></div>
+      <div class="bar-row"><span class="lbl">Mac</span><div class="track"><div class="fill" style="width:8.1%"></div></div><span class="v">$33.7B</span></div>
+      <div class="bar-row"><span class="lbl">iPad</span><div class="track"><div class="fill" style="width:6.7%"></div></div><span class="v">$28.0B</span></div>
+    </div>
+    <p class="note" style="margin-top:10px">막대 길이는 총매출 대비 비중. FY2026 부문별 수치는 보도마다 차이가 있어 확정치인 FY2025 기준으로 표시.</p>
+  </section>
+
+  <section id="financials">
+    <h2><span class="num">02</span>재무 요약</h2>
+    <div class="kpis">
+      <div class="kpi"><div class="label">FY2026 매출</div><div class="value">$478.8B</div><div class="delta">▲ 15.1% YoY</div></div>
+      <div class="kpi"><div class="label">FY2026 순이익</div><div class="value">$132.2B</div><div class="delta">▲ 18.0% YoY</div></div>
+      <div class="kpi"><div class="label">FY2026 희석 EPS</div><div class="value">$8.98</div><div class="delta">▲ 20.4% YoY</div></div>
+      <div class="kpi"><div class="label">4분기 매출총이익률</div><div class="value">47.9%</div><div class="delta" style="color:var(--muted)">관세 환급 효과 약 1%p 포함</div></div>
+    </div>
+
+    <h3>연간 실적 추이 (단위: 10억 달러)</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>회계연도</th><th>매출</th><th>매출 성장률</th><th>순이익</th><th>순이익률</th></tr></thead>
+        <tbody>
+          <tr><td>FY2023</td><td>383.3</td><td>−2.8%</td><td>97.0</td><td>25.3%</td></tr>
+          <tr><td>FY2024</td><td>391.0</td><td>+2.0%</td><td>93.7</td><td>24.0%</td></tr>
+          <tr><td>FY2025</td><td>416.2</td><td>+6.4%</td><td>112.0</td><td>26.9%</td></tr>
+          <tr><td><strong>FY2026</strong></td><td><strong>478.8</strong></td><td><strong>+15.1%</strong></td><td><strong>132.2</strong></td><td><strong>27.6%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top:8px">FY2024 순이익은 EU 국가보조금 판결 관련 일회성 법인세 약 $10.2B 반영.</p>
+
+    <h3>FY2026 4분기 (2026년 9월 26일 마감)</h3>
+    <p>매출 $114.5B(+12% YoY), 순이익 $30.7B, 희석 EPS $2.10(전년 $1.85). 서비스 매출은 약 $31.6B로 분기 사상 최대. 분기 중 주주환원 약 $28B.</p>
+    <p class="note">해석: 매출 성장이 두 자릿수로 회복됐고, 서비스 비중 확대로 이익 증가율이 매출 증가율을 앞서는 구조가 이어지고 있다. 다만 4분기 마진에는 관세 환급이라는 일회성 요인이 섞여 있다.</p>
+  </section>
+
+  <section id="news">
+    <h2><span class="num">03</span>최근 뉴스</h2>
+    <ul class="news">
+      <li><time>2026.11.02</time><div><strong>FY2026 4분기 실적 발표 — 연간 매출 사상 최대</strong><span>분기 매출 $114.5B, 순이익 $30.7B. 연간 매출 $478.8B로 처음 4,700억 달러 돌파.</span></div></li>
+      <li><time>2026.11 초</time><div><strong>터치스크린 MacBook Pro 등 신제품 출시</strong><span>사전 주문 이후 첫 터치스크린 MacBook Pro를 포함한 신제품이 매장에 출시.</span></div></li>
+      <li><time>2026.11.04</time><div><strong>중국용 Apple Intelligence 기능 테스트 시작</strong><span>최신 iOS 개발자 베타에서 중국 사용자 대상 AI 기능이 처음 포함됨. 중국 시장 AI 공백 해소의 첫 단계.</span></div></li>
+      <li><time>2026.11.13</time><div><strong>스마트홈 디스플레이 HomeView 출시 ($299)</strong><span>홈 기기 카테고리 확장. 시리·홈 허브 전략의 시험대.</span></div></li>
+      <li><time>2026.11</time><div><strong>$7.5B 규모 회사채 발행</strong><span>현금성 자산이 충분함에도 저금리 차입으로 자사주 매입·배당 재원을 조달하는 기존 방식 유지.</span></div></li>
+      <li><time>진행 중</time><div><strong>미 법무부(DOJ) 반독점 소송</strong><span>스마트폰 시장 독점 혐의 소송의 증거개시 절차 진행 중. 애플은 삼성 미국법인·Epic CEO 자료 제출을 요구.</span></div></li>
+    </ul>
+  </section>
+
+  <section id="risks">
+    <h2><span class="num">04</span>리스크</h2>
+    <div class="risks">
+      <div class="risk"><div class="risk-head"><strong>규제·반독점</strong><span class="tag high">높음</span></div>
+        <p>미 DOJ 소송, EU 디지털시장법(DMA), 앱스토어 수수료 관련 판결이 서비스 부문의 고마진 구조를 직접 겨냥. Google 검색 기본값 계약(연 수백억 달러 규모) 역시 반독점 판결의 영향권.</p></div>
+      <div class="risk"><div class="risk-head"><strong>iPhone 의존도</strong><span class="tag high">높음</span></div>
+        <p>매출의 약 절반이 단일 제품에서 발생. 교체 주기 장기화나 신제품 반응 부진이 전사 실적에 곧바로 반영된다.</p></div>
+      <div class="risk"><div class="risk-head"><strong>중국 — 생산과 수요 양쪽</strong><span class="tag mid">중간</span></div>
+        <p>생산 상당 부분이 중국에 집중되어 있고 중국은 주요 판매 시장이기도 하다. 미·중 갈등, 관세 정책 변화, 현지 업체(화웨이 등)와의 경쟁이 동시에 작용. 인도·베트남으로 생산 분산이 진행 중.</p></div>
+      <div class="risk"><div class="risk-head"><strong>AI 경쟁 격차</strong><span class="tag mid">중간</span></div>
+        <p>Apple Intelligence와 차세대 Siri의 완성도가 경쟁사 대비 뒤처진다는 평가가 업그레이드 수요와 생태계 락인에 영향을 줄 수 있다.</p></div>
+      <div class="risk"><div class="risk-head"><strong>밸류에이션·일회성 요인</strong><span class="tag mid">중간</span></div>
+        <p>높은 주가배수는 성장 둔화에 민감하다. FY2026 4분기 마진에 포함된 관세 환급 효과처럼 반복되지 않는 요인을 걷어내고 봐야 한다.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>출처: <a href="https://www.apple.com/newsroom/2026/11/apple-reports-fourth-quarter-results/">Apple Newsroom — FY2026 4분기 실적</a> · <a href="https://www.macrumors.com/2026/11/02/apple-4q-2026-earnings/">MacRumors</a> · <a href="https://www.macrumors.com/2026/11/02/apple-isnt-done-with-2026-heres-whats-still-coming/">MacRumors — 2026 남은 출시 일정</a> · <a href="https://www.macworld.com/article/3273463/apples-probably-done-announcing-new-hardware-but-november-is-still-pretty-jammed.html">Macworld</a> · Apple 10-K (FY2023–FY2025)</p>
+    <p>이 페이지는 정보 제공용 요약이며 투자 권유가 아닙니다. 수치는 공시 원문으로 확인하세요.</p>
+  </footer>
+</div>
+</body>
+</html>

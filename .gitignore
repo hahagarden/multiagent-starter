@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+._*
+
+# 편집기·IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# 로그·임시 파일
+*.log
+*.tmp
+
+# 환경 변수·비밀 정보
+.env
+.env.*
+
+# Claude Code 로컬 설정
+.claude/settings.local.json
