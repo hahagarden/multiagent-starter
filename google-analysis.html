@@ -94,6 +94,15 @@
   .pill.up { background: var(--pos-soft); }
   .pill.down { background: var(--high-soft); }
   .pill.flat { background: var(--surface); color: var(--muted); border: 1px solid var(--line); }
+  .table-scroll { overflow-x: auto; }
+  .fin-table { width: 100%; border-collapse: collapse; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+  .fin-table th, .fin-table td { padding: 10px 8px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .fin-table th:first-child, .fin-table td:first-child { text-align: left; padding-left: 0; }
+  .fin-table th:last-child, .fin-table td:last-child { padding-right: 0; }
+  .fin-table thead th { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .fin-table .sub td { color: var(--muted); }
+  .fin-table .total td { font-weight: 700; border-bottom: 0; border-top: 2px solid var(--line); }
+  .fin-table .key i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 8px; vertical-align: 1px; }
   .callout { margin-top: 16px; padding: 14px 16px; border-left: 3px solid var(--accent); background: var(--surface-2); border-radius: 0 10px 10px 0; font-size: 15px; }
 
   .chart-wrap { position: relative; margin-top: 4px; }
@@ -208,7 +217,7 @@
     <div class="sec-head"><span class="idx">01</span><h2>개요</h2></div>
     <div class="split">
       <div>
-        <p class="lead-text">매출의 4분의 3은 아직 검색·유튜브 중심의 Google Services에서 나오지만, 1년 사이 늘어난 매출의 약 60%는 Google Cloud가 만들었다.<sup><a class="ref" href="#src-1">1</a></sup></p>
+        <p class="lead-text">매출의 4분의 3은 아직 검색·유튜브 중심의 Google Services에서 나온다. 하지만 1년 사이 늘어난 매출의 약 60%는 Google Cloud가 만들었다.<sup><a class="ref" href="#src-1">1</a></sup></p>
         <p>클라우드 성장은 기업용 AI 인프라와 TPU 시스템 판매가 이끌었고,<sup><a class="ref" href="#src-1">1</a></sup> Gemini 앱 월간 사용자는 10억 명에 이른 것으로 전해진다.<sup><a class="ref" href="#src-9">9</a></sup> 지금 구글의 문제는 검색 회사가 AI 인프라 회사로 바뀌는 비용을 누가, 언제까지 감당하느냐다.</p>
       </div>
       <div>
@@ -241,6 +250,20 @@
       <div class="kpi alert"><div class="label">잉여현금흐름<sup><a class="ref" href="#src-11">11</a></sup></div><div class="value down">−$9.1B</div><span class="pill flat">설비투자 증가 영향</span></div>
     </div>
     <div class="callout">2026년 설비투자 계획 <b>1,950억~2,050억 달러</b>는 7월에 150억 달러 상향된 뒤 3분기 발표에서 그대로 유지됐고, 2027년에는 "상당한 추가 증가"가 예고됐다.<sup><a class="ref" href="#src-3">3</a></sup><sup><a class="ref" href="#src-10">10</a></sup> 클라우드 매출은 시장 예상(287억 달러)을 넘었지만 실적 발표 뒤 주가는 약 10% 떨어졌다.<sup><a class="ref" href="#src-3">3</a></sup></div>
+
+    <h3>연간 매출 (2023~2025, 12월 결산)<sup><a class="ref" href="#src-14">14</a></sup></h3>
+    <div class="table-scroll">
+      <table class="fin-table">
+        <thead><tr><th>구분</th><th>2023</th><th>2024</th><th>2025</th><th>2025 전년 대비</th></tr></thead>
+        <tbody>
+          <tr><td>Google Services</td><td>$272.5B</td><td>$304.9B</td><td>$342.7B</td><td class="up">+12.4%</td></tr>
+          <tr class="key"><td><i></i>Google Cloud</td><td>$33.1B</td><td>$43.2B</td><td>$58.7B</td><td class="up">+35.8%</td></tr>
+          <tr class="sub"><td>기타 (Other Bets·헤지 손익)</td><td>$1.8B</td><td>$1.9B</td><td>$1.4B</td><td>—</td></tr>
+          <tr class="total"><td>총매출</td><td>$307.4B</td><td>$350.0B</td><td>$402.8B</td><td class="up">+15.1%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="calc" style="margin-top:8px">전년 대비 증감률은 10-K 금액으로 계산한 값</p>
 
     <h3>주가 변동 (GOOGL, 달러)</h3>
     <div class="chart-wrap">
@@ -352,8 +375,9 @@
       <li id="src-11">24/7 Wall St., 2026-11-17 — <a href="https://247wallst.com/investing/2026/11/17/if-nvidias-earnings-show-tightness-alphabet-and-amazon-could-rise-40-and-33-by-the-end-of-2026-respectively">247wallst.com</a></li>
       <li id="src-12">PYMNTS, "Google's Gemini Faces EU Copyright Scrutiny Over Use of News Content" — <a href="https://www.pymnts.com/cpi-posts/googles-gemini-faces-eu-copyright-scrutiny-over-use-of-news-content/">pymnts.com</a></li>
       <li id="src-13">Tech Insider, "Google Antitrust Appeal 2026: DOJ Case Explained" — <a href="https://tech-insider.org/google-antitrust-appeal-doj-search-monopoly-2026/">tech-insider.org</a></li>
+      <li id="src-14">Alphabet, 2025 회계연도 Form 10-K — <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm">sec.gov</a></li>
     </ol>
-    <p class="asof">작성 시점 2026-11-18 · 자료 기준일: 실적 2026-09-30(3분기 마감), 주가 2026-11-16 종가, 뉴스 2026-11-16까지</p>
+    <p class="asof">작성 시점 2026-11-18 · 자료 기준일: 연간 실적 2025-12-31(회계연도 마감), 분기 실적 2026-09-30(3분기 마감), 주가 2026-11-16 종가, 뉴스 2026-11-16까지</p>
   </footer>
 </div>
 <script>
