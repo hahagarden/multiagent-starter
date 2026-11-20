@@ -1,49 +1,31 @@
 #!/bin/sh
-# 사용법: sh check.sh [분석 페이지.html]  (생략하면 targets가 찾은 파일을 모두 검사)
+# 사용법: sh check.sh <분석 페이지.html>
+f="${1:?검사할 HTML 파일을 지정하세요}"
 fail=0
-bad() { echo "[$f] 실패: $1"; page_fail=1; }
+bad() { echo "실패: $1"; fail=1; }
 
-# 검사할 파일 목록. 다른 형식이 생기면 여기에 찾는 방식을 더한다.
-targets() {
-  for t in *-analysis.html; do [ -e "$t" ] && echo "$t"; done
-}
+[ -f "$f" ] || { echo "실패: 파일 없음 $f"; exit 1; }
 
-check_page() {
-  f="$1"
-  page_fail=0
+for id in overview financials news risks; do
+  grep -q "<section id=\"$id\"" "$f" || bad "섹션 #$id 없음"
+done
 
-  [ -f "$f" ] || { echo "[$f] 실패: 파일 없음"; fail=1; return; }
+[ "$(grep -c '<section id="missing"' "$f")" -eq 1 ] || bad "빠진 자료 블록이 정확히 하나가 아님"
 
-  for id in overview financials news risks; do
-    grep -q "<section id=\"$id\"" "$f" || bad "섹션 #$id 없음"
-  done
+awk '/<section id="financials"/,/<\/section>/' "$f" | grep -q '<svg' || bad "재무 요약에 차트 없음"
+awk '/<section id="financials"/,/<\/section>/' "$f" | grep -q '기간:' || bad "차트 기간 표기 없음"
 
-  [ "$(grep -c '<section id="missing"' "$f")" -eq 1 ] || bad "빠진 자료 블록이 정확히 하나가 아님"
+body=$(awk '/<footer>/{exit} {print}' "$f")
+echo "$body" | grep -q 'href="http' && bad "본문에 출처 링크가 직접 달려 있음"
 
-  awk '/<section id="financials"/,/<\/section>/' "$f" | grep -q '<svg' || bad "재무 요약에 차트 없음"
-  awk '/<section id="financials"/,/<\/section>/' "$f" | grep -q '기간:' || bad "차트 기간 표기 없음"
+cited=$(echo "$body" | grep -o 'href="#src-[0-9]*"' | grep -o '[0-9]*' | sort -un)
+listed=$(grep -o 'id="src-[0-9]*"' "$f" | grep -o '[0-9]*' | sort -un)
+for n in $cited; do echo "$listed" | grep -qx "$n" || bad "출처 $n 번이 목록에 없음"; done
+for n in $listed; do echo "$cited" | grep -qx "$n" || bad "출처 $n 번이 본문에서 쓰이지 않음"; done
 
-  body=$(awk '/<footer>/{exit} {print}' "$f")
-  echo "$body" | grep -q 'href="http' && bad "본문에 출처 링크가 직접 달려 있음"
+awk '/<footer>/,/<\/footer>/' "$f" | grep -q 'class="asof".*작성 시점.*자료 기준일' || bad "출처 목록 옆 작성 시점·기준일 줄 없음"
 
-  cited=$(echo "$body" | grep -o 'href="#src-[0-9]*"' | grep -o '[0-9]*' | sort -un)
-  listed=$(grep -o 'id="src-[0-9]*"' "$f" | grep -o '[0-9]*' | sort -un)
-  for n in $cited; do echo "$listed" | grep -qx "$n" || bad "출처 $n 번이 목록에 없음"; done
-  for n in $listed; do echo "$cited" | grep -qx "$n" || bad "출처 $n 번이 본문에서 쓰이지 않음"; done
+grep -Eq '매수|매도|투자 ?권유|투자 ?추천|목표 ?주가|비중 ?확대|비중 ?축소' "$f" && bad "투자 판단을 권하는 문구 포함"
 
-  awk '/<footer>/,/<\/footer>/' "$f" | grep -q 'class="asof".*작성 시점.*자료 기준일' || bad "출처 목록 옆 작성 시점·기준일 줄 없음"
-
-  grep -Eq '매수|매도|투자 ?권유|투자 ?추천|목표 ?주가|비중 ?확대|비중 ?축소' "$f" && bad "투자 판단을 권하는 문구 포함"
-
-  if [ "$page_fail" -eq 0 ]; then echo "[$f] 통과"; else fail=1; fi
-}
-
-if [ $# -gt 0 ]; then
-  files="$*"
-else
-  files=$(targets)
-  [ -n "$files" ] || { echo "검사 대상 없음"; exit 1; }
-fi
-
-for p in $files; do check_page "$p"; done
+[ "$fail" -eq 0 ] && echo "통과: $f"
 exit "$fail"
