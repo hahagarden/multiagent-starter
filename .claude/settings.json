@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && r=$(sh check.sh google-analysis.html 2>&1 | tr '\\n' ' '); echo \"$(date '+%Y-%m-%d %H:%M:%S') $r\" >> .claude/hook-log.txt; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}
