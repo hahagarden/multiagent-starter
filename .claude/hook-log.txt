@@ -1,0 +1,13 @@
+2026-11-20 13:19:06 통과: google-analysis.html 
+2026-11-20 13:19:16 통과: google-analysis.html 
+2026-11-20 13:26:28 통과: google-analysis.html 
+2026-11-20 13:30:08 check.sh: line 3: 1: 검사할 HTML 파일을 지정하세요 
+2026-11-20 13:32:19 check.sh: line 3: 1: 검사할 HTML 파일을 지정하세요 
+2026-11-20 13:36:27 [google-analysis.html] 통과: google-analysis.html 
+2026-11-20 13:36:38 [google-analysis.html] 통과: google-analysis.html 
+2026-11-20 13:40:18 [google-analysis.html] 통과: google-analysis.html 
+2026-11-20 13:40:30 [google-analysis.html] 통과: google-analysis.html 
+2026-11-20 13:43:38 [google-analysis.html] 통과: google-analysis.html 
+2026-11-20 13:44:55 [google-analysis.html] 통과: google-analysis.html 
+2026-11-20 13:48:06 [google-analysis.html] 통과
+2026-11-20 13:48:17 [google-analysis.html] 통과
