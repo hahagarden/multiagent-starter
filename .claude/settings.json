@@ -1,11 +1,23 @@
 {
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"$CLAUDE_PROJECT_DIR/.claude/hooks/user-prompt-submit.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "cd \"$CLAUDE_PROJECT_DIR\" && r=$(sh check.sh google-analysis.html 2>&1 | tr '\\n' ' '); echo \"$(date '+%Y-%m-%d %H:%M:%S') $r\" >> .claude/hook-log.txt; exit 0"
+            "command": "sh \"$CLAUDE_PROJECT_DIR/.claude/hooks/stop.sh\"",
+            "timeout": 30
           }
         ]
       }
