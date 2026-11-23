@@ -1,0 +1,1 @@
+2026-11-23 17:13:54 [설치 명령] echo "훅 테스트: npm install sample-pkg" (위치: ~/Documents/garden/code-assistant-a)
