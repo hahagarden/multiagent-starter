@@ -6,7 +6,8 @@
           {
             "type": "command",
             "command": "sh \"$CLAUDE_PROJECT_DIR/.claude/hooks/user-prompt-submit.sh\"",
-            "timeout": 10
+            "timeout": 10,
+            "statusMessage": "재시도 횟수 초기화 중"
           }
         ]
       }
@@ -18,12 +19,14 @@
           {
             "type": "command",
             "command": "sh \"$CLAUDE_PROJECT_DIR/.claude/hooks/pre-bash.sh\"",
-            "timeout": 10
+            "timeout": 10,
+            "statusMessage": "삭제 명령 검사 중"
           },
           {
             "type": "command",
             "command": "sh \"$CLAUDE_PROJECT_DIR/.claude/hooks/pre-bash-install.sh\"",
-            "timeout": 10
+            "timeout": 10,
+            "statusMessage": "설치 명령 기록 중"
           }
         ]
       }
@@ -34,7 +37,8 @@
           {
             "type": "command",
             "command": "sh \"$CLAUDE_PROJECT_DIR/.claude/hooks/stop.sh\"",
-            "timeout": 30
+            "timeout": 30,
+            "statusMessage": "페이지 규칙 검사 중"
           }
         ]
       }
