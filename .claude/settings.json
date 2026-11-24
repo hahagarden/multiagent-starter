@@ -1,4 +1,56 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git stash)",
+      "Bash(git stash push *)",
+      "Bash(git stash save *)",
+      "Bash(git stash list)",
+      "Bash(git stash list *)"
+    ],
+    "ask": [
+      "Bash(git stash pop)",
+      "Bash(git stash pop *)",
+      "Bash(git stash apply)",
+      "Bash(git stash apply *)",
+      "Bash(git reset --hard)",
+      "Bash(git reset --hard *)",
+      "Bash(git restore *)",
+      "Bash(git checkout -- *)",
+      "Bash(git checkout . *)",
+      "Bash(git revert *)"
+    ],
+    "deny": [
+      "Bash(rm *)",
+      "Bash(rmdir *)",
+      "Bash(unlink *)",
+      "Bash(find * -delete*)",
+      "Bash(git rm *)",
+      "Bash(git clean *)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push * --force*)",
+      "Bash(git push * -f*)",
+      "Bash(git push * +*)",
+      "Bash(git push --delete *)",
+      "Bash(git push * --delete *)",
+      "Bash(git push * :*)",
+      "Bash(git stash drop)",
+      "Bash(git stash drop *)",
+      "Bash(git stash clear)",
+      "Bash(git clean)",
+      "Bash(git branch -D *)",
+      "Bash(git reflog expire *)",
+      "Bash(git reflog delete *)",
+      "Bash(git update-ref -d *)",
+      "Bash(git filter-branch *)",
+      "Bash(git gc --prune*)",
+      "Bash(sudo *)",
+      "Bash(dd *)",
+      "Bash(mkfs *)",
+      "Bash(shred *)",
+      "Bash(diskutil erase*)"
+    ]
+  },
   "hooks": {
     "UserPromptSubmit": [
       {
