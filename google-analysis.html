@@ -10,6 +10,8 @@
     --faint: #9a9aa2; --line: #e4e4e0; --accent: #2a62c9; --accent-soft: #e3ecfb; --neutral-mark: #c9c9cf;
     --pos: #1f7a4d; --pos-soft: #e3f3ea; --warn: #b4531a; --warn-soft: #fbeee3;
     --high: #b42318; --high-soft: #fbe6e4; --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
+    --risk-high: #581c87; --risk-mid: #9333ea; --risk-low: #d8b4fe;
+    --risk-high-bg: #6b21a8; --risk-high-ink: #ffffff; --risk-mid-bg: #e9d5ff; --risk-mid-ink: #6b21a8; --risk-low-bg: #f1eef5; --risk-low-ink: #5f5670;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -17,6 +19,8 @@
       --faint: #74747c; --line: #2d2d32; --accent: #7aa5f0; --accent-soft: #22304a; --neutral-mark: #4a4a52;
       --pos: #5cc28c; --pos-soft: #1c3227; --warn: #e59a5f; --warn-soft: #3a2a1d;
       --high: #f0776c; --high-soft: #3d201e; --shadow: none;
+      --risk-high: #c084fc; --risk-mid: #9333ea; --risk-low: #581c87;
+      --risk-high-bg: #c084fc; --risk-high-ink: #2e1065; --risk-mid-bg: #3b0764; --risk-mid-ink: #e9d5ff; --risk-low-bg: #2a2730; --risk-low-ink: #b3acc0;
     }
   }
   :root[data-theme="dark"] {
@@ -24,6 +28,8 @@
     --faint: #74747c; --line: #2d2d32; --accent: #7aa5f0; --accent-soft: #22304a; --neutral-mark: #4a4a52;
     --pos: #5cc28c; --pos-soft: #1c3227; --warn: #e59a5f; --warn-soft: #3a2a1d;
     --high: #f0776c; --high-soft: #3d201e; --shadow: none;
+    --risk-high: #c084fc; --risk-mid: #9333ea; --risk-low: #581c87;
+    --risk-high-bg: #c084fc; --risk-high-ink: #2e1065; --risk-mid-bg: #3b0764; --risk-mid-ink: #e9d5ff; --risk-low-bg: #2a2730; --risk-low-ink: #b3acc0;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; scroll-padding-top: 72px; }
@@ -144,14 +150,17 @@
   /* 리스크 */
   .risks { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .risk { border: 1px solid var(--line); border-left-width: 4px; border-radius: 12px; padding: 16px 18px; background: var(--surface-2); }
-  .risk.high { border-left-color: var(--high); }
-  .risk.mid { border-left-color: var(--warn); }
+  .risk[data-level="high"] { border-left-color: var(--risk-high); }
+  .risk[data-level="mid"] { border-left-color: var(--risk-mid); }
+  .risk[data-level="low"] { border-left-color: var(--risk-low); }
   .risk.wide { grid-column: 1 / -1; }
   .risk-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
   .risk-head strong { font-size: 15.5px; line-height: 1.45; }
   .tag { flex: none; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; }
-  .tag.high { color: var(--high); background: var(--high-soft); }
-  .tag.mid { color: var(--warn); background: var(--warn-soft); }
+  .tag[data-level="high"] { background: var(--risk-high-bg); color: var(--risk-high-ink); }
+  .tag[data-level="mid"] { background: var(--risk-mid-bg); color: var(--risk-mid-ink); }
+  .tag[data-level="low"] { background: var(--risk-low-bg); color: var(--risk-low-ink); }
+  .risk-scale { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 12px; color: var(--muted); font-size: 13px; }
   .risk p { margin: 8px 0 0; color: var(--muted); font-size: 14.5px; }
 
   /* 빠진 자료 */
@@ -323,25 +332,26 @@
 
   <section id="risks">
     <div class="sec-head"><span class="idx">04</span><h2>리스크</h2></div>
+    <p class="risk-scale">위험도 <span class="tag" data-level="high">높음</span><span class="tag" data-level="mid">중간</span><span class="tag" data-level="low">낮음</span></p>
     <div class="risks">
-      <div class="risk high wide">
-        <div class="risk-head"><strong>설비투자가 현금흐름을 앞지름</strong><span class="tag high">높음</span></div>
+      <div class="risk wide" data-level="high">
+        <div class="risk-head"><strong>설비투자가 현금흐름을 앞지름</strong><span class="tag" data-level="high">높음</span></div>
         <p>3분기 잉여현금흐름은 −91억 달러였다.<sup><a class="ref" href="#src-11">11</a></sup> 2027년 투자는 더 늘어날 예정이라,<sup><a class="ref" href="#src-3">3</a></sup> 클라우드 매출이 투자 속도를 따라잡지 못하면 이 적자가 길어진다.</p>
       </div>
-      <div class="risk mid">
-        <div class="risk-head"><strong>Anthropic 의존과 투자 노출</strong><span class="tag mid">중간</span></div>
+      <div class="risk" data-level="mid">
+        <div class="risk-head"><strong>Anthropic 의존과 투자 노출</strong><span class="tag" data-level="mid">중간</span></div>
         <p>추가 100억 달러 투자로 클라우드 성장의 상당 부분이 한 AI 고객·투자처의 성과와 묶이고 있다.<sup><a class="ref" href="#src-8">8</a></sup></p>
       </div>
-      <div class="risk mid">
-        <div class="risk-head"><strong>검색 독점 판결 항소 진행 중, Gemini도 대상</strong><span class="tag mid">중간</span></div>
+      <div class="risk" data-level="mid">
+        <div class="risk-head"><strong>검색 독점 판결 항소 진행 중, Gemini도 대상</strong><span class="tag" data-level="mid">중간</span></div>
         <p>2025년 9월 시정 명령은 검색·Chrome·Gemini 앱의 독점 배포 계약을 6년간 금지했다. 항소 결과는 2026년 말~2027년 초로 예상된다.<sup><a class="ref" href="#src-13">13</a></sup></p>
       </div>
-      <div class="risk mid">
-        <div class="risk-head"><strong>광고 기술 소송 최종 판결 대기</strong><span class="tag mid">중간</span></div>
+      <div class="risk" data-level="mid">
+        <div class="risk-head"><strong>광고 기술 소송 최종 판결 대기</strong><span class="tag" data-level="mid">중간</span></div>
         <p>2025년 11월 최종 변론 이후 시정 판결이 아직 나오지 않았다.<sup><a class="ref" href="#src-2">2</a></sup></p>
       </div>
-      <div class="risk mid">
-        <div class="risk-head"><strong>EU에서 Gemini 저작권 문제</strong><span class="tag mid">중간</span></div>
+      <div class="risk" data-level="mid">
+        <div class="risk-head"><strong>EU에서 Gemini 저작권 문제</strong><span class="tag" data-level="mid">중간</span></div>
         <p>뉴스 콘텐츠 사용 방식이 바뀌어야 하면 유럽에서 Gemini 답변 품질이나 비용에 영향을 줄 수 있다.<sup><a class="ref" href="#src-12">12</a></sup></p>
       </div>
     </div>
