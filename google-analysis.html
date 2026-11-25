@@ -51,14 +51,14 @@
   .down { color: var(--high); }
   .muted { color: var(--muted); font-size: var(--fs-sm); }
 
-  /* 카드: 한 벌 */
+  /* 카드: 공통 스타일 */
   .cards { display: grid; gap: var(--card-gap); }
   .cards.cols-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); }
   .cards.kpis { grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr)); }
   .card { background: var(--surface); border: var(--card-border); border-radius: var(--card-radius); box-shadow: var(--shadow); padding: var(--card-pad); min-width: 0; }
   .card-title { display: block; font-size: var(--fs-md); margin-bottom: var(--s-2); }
 
-  /* 머리 */
+  /* 헤더 */
   header { padding: var(--s-7) 0 var(--s-5); }
   .eyebrow { display: flex; gap: var(--s-2); align-items: center; color: var(--muted); font-size: var(--fs-sm); }
   .ticker { font-weight: 700; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 0 var(--s-2); }
@@ -71,7 +71,7 @@
   .hero-side dd { margin: 0; }
   .hero-side .v { font-size: var(--fs-kpi); font-weight: 700; font-variant-numeric: tabular-nums; }
 
-  /* 목차 */
+  /* 내비게이션 */
   nav { position: sticky; top: 0; z-index: 5; margin: 0 var(--gutter-neg); padding: var(--s-2) var(--s-4); background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
   nav .links { display: flex; flex-wrap: wrap; gap: var(--s-1); }
   nav a { font-size: var(--fs-sm); color: var(--muted); text-decoration: none; padding: var(--s-1) var(--s-3); border-radius: 999px; }
@@ -160,7 +160,7 @@
   /* 빠진 자료 */
   #missing .sec-head .idx { color: var(--warn); }
 
-  /* 바닥 */
+  /* 푸터 */
   footer { margin-top: var(--s-8); padding-top: var(--s-5); border-top: 1px solid var(--line); font-size: var(--fs-sm); color: var(--muted); }
   footer h2 { font-size: var(--fs-md); color: var(--text); }
   footer ol { padding-left: var(--s-5); margin: var(--s-2) 0 var(--s-4); columns: 2; column-gap: var(--s-6); }
@@ -449,7 +449,7 @@
       tip.innerHTML = pts[i][0] + ' 종가<br><b>$' + pts[i][1].toFixed(2) + '</b>' + chg;
       tip.style.left = (cx / W * rect.width) + 'px';
       tip.style.top = (cy / H * rect.height) + 'px';
-      // 양 끝에서는 말풍선이 차트 밖으로 나가지 않도록 기준점을 옮긴다
+      // 양 끝에서는 툴팁이 차트 밖으로 나가지 않도록 기준점을 이동한다
       var tx = i <= 1 ? '-10%' : i >= pts.length - 2 ? '-90%' : '-50%';
       tip.style.transform = 'translate(' + tx + ', calc(-100% - 14px))';
       tip.classList.add('show');

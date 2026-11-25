@@ -11,6 +11,7 @@
 # 로그·임시 파일
 *.log
 *.tmp
+.claude/hook-run-log.txt
 
 # 환경 변수·비밀 정보
 .env
