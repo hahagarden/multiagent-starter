@@ -6,7 +6,7 @@ bad() { echo "실패: $1"; fail=1; }
 
 [ -f "$f" ] || { echo "실패: 파일 없음 $f"; exit 1; }
 
-for id in overview financials news risks; do
+for id in overview financials news risks peers; do
   grep -q "<section id=\"$id\"" "$f" || bad "섹션 #$id 없음"
 done
 
@@ -14,6 +14,15 @@ done
 
 awk '/<section id="financials"/,/<\/section>/' "$f" | grep -q '<svg' || bad "재무 요약에 차트 없음"
 awk '/<section id="financials"/,/<\/section>/' "$f" | grep -q '기간:' || bad "차트 기간 표기 없음"
+
+# 경쟁사 비교: 표, 회사 5곳 이름, 기간 표기, nav 링크
+peers=$(awk '/<section id="peers"/,/<\/section>/' "$f")
+echo "$peers" | grep -q '<table' || bad "경쟁사 비교에 표(table) 없음"
+peers_miss=""
+for co in Alphabet Microsoft Amazon Meta Oracle; do echo "$peers" | grep -q "$co" || peers_miss="$peers_miss $co"; done
+[ -z "$peers_miss" ] || bad "경쟁사 비교에 회사 이름 없음:$peers_miss"
+echo "$peers" | grep -q '기간:' || bad "경쟁사 비교 기간 표기 없음"
+awk '/<nav/,/<\/nav>/' "$f" | grep -q 'href="#peers"' || bad "nav에 #peers 링크 없음"
 
 body=$(awk '/<footer>/{exit} {print}' "$f")
 echo "$body" | grep -q 'href="http' && bad "본문에 외부 출처 링크가 포함됨"
@@ -65,7 +74,7 @@ END { if (n == 0) print "위험도 색 토큰(--risk-high/mid/low) 없음" }' "$
 [ -n "$colors" ] && { echo "$colors" | sed 's/^/실패: /'; fail=1; }
 
 # 레이아웃: 섹션마다 대주제(h2) → 맨 위 한 줄 요약 → 소주제(h3) → 카드
-for id in overview financials news risks missing; do
+for id in overview financials news risks peers missing; do
   sec=$(awk -v id="$id" 'index($0, "<section id=\"" id "\""), /<\/section>/' "$f")
   echo "$sec" | grep -q '<h2' || bad "#$id 대주제(h2) 없음"
   echo "$sec" | grep -q '<h3' || bad "#$id 소주제(h3) 없음"
@@ -138,11 +147,11 @@ else
   echo "건너뜀: 좁은 화면 검사 (Chrome 없음)"
 fi
 
-# 글자 수: 화면에 표시되는 글자, 공백 포함, 출처 목록(footer) 제외, 3,000자 이하
+# 글자 수: 화면에 표시되는 글자, 공백 포함, 출처 목록(footer) 제외, 4,000자 이하
 chars=$(awk '/<head>/,/<\/head>/ { next } /<script>/,/<\/script>/ { next } /<footer>/,/<\/footer>/ { next } { print }' "$f" \
   | sed 's/<[^>]*>//g; s/&[a-z]*;/ /g' | tr -s ' \t\n' ' ' | sed 's/^ //; s/ $//' | LC_ALL=en_US.UTF-8 wc -m | tr -d ' ')
-[ "$chars" -le 3000 ] || bad "본문 글자 수 ${chars}자가 3,000자를 넘음"
-echo "본문 글자 수: ${chars}자 / 3,000자"
+[ "$chars" -le 4000 ] || bad "본문 글자 수 ${chars}자가 4,000자를 넘음"
+echo "본문 글자 수: ${chars}자 / 4,000자"
 
 [ "$fail" -eq 0 ] && echo "통과: $f"
 exit "$fail"

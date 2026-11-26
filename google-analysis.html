@@ -14,7 +14,7 @@
     --risk-high-bg: #6b21a8; --risk-high-ink: #ffffff; --risk-mid-bg: #e9d5ff; --risk-mid-ink: #6b21a8; --risk-low-bg: #f1eef5; --risk-low-ink: #5f5670;
     --fs-xs: 12px; --fs-sm: 13px; --fs-md: 15px; --fs-base: 16px; --fs-lg: 17px; --fs-h2: 24px; --fs-kpi: 24px; --fs-h1: 34px; --fs-hero: 56px;
     --s-0: 2px; --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px; --gutter-neg: -16px;
-    --card-pad: 16px; --card-gap: 24px; --card-radius: 12px; --card-border: 1px solid var(--line);
+    --card-pad: 16px; --card-gap: 24px; --card-radius: 12px; --card-border: 1px solid var(--line); --risk-gap: 40px;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -144,6 +144,7 @@
   .news strong { display: block; font-size: var(--fs-md); margin: var(--s-1) 0; }
 
   /* 리스크 */
+  #risks .cards { gap: var(--risk-gap); }
   .risk[data-level="high"] { --level: var(--risk-high); }
   .risk[data-level="mid"] { --level: var(--risk-mid); }
   .risk[data-level="low"] { --level: var(--risk-low); }
@@ -199,6 +200,7 @@
       <a href="#financials">재무 요약</a>
       <a href="#news">최근 뉴스</a>
       <a href="#risks">리스크</a>
+      <a href="#peers">경쟁사 비교</a>
       <a href="#missing" class="gap">빠진 자료</a>
     </div>
   </nav>
@@ -370,9 +372,43 @@
     </div>
   </section>
 
+  <section id="peers">
+    <div class="sec-head"><span class="idx">05</span><h2>경쟁사 비교</h2></div>
+    <p class="summary">Alphabet의 클라우드 성장(+103%)과 설비투자 부담(121%)은 Oracle(+121%, 123%)과 비슷하다. 다만 클라우드 매출 범위는 회사마다 다르다.<sup><a class="ref" href="#src-1">1</a></sup><sup><a class="ref" href="#src-18">18</a></sup></p>
+    <h3>클라우드 성장·수익성·설비투자 부담</h3>
+    <div class="cards">
+      <div class="card">
+        <div class="table-scroll">
+          <table class="tbl">
+            <thead><tr><th>회사</th><th>클라우드 매출 증가율</th><th>클라우드 영업이익률</th><th>설비투자 ÷ 영업현금흐름</th></tr></thead>
+            <tbody>
+              <tr><td>Alphabet</td><td>+103% (Google Cloud)<sup><a class="ref" href="#src-1">1</a></sup></td><td>36.2%<sup><a class="ref" href="#src-1">1</a></sup></td><td>121%<sup><a class="ref" href="#src-1">1</a></sup></td></tr>
+              <tr><td>Microsoft</td><td>+48% (Azure)<sup><a class="ref" href="#src-15">15</a></sup></td><td>미공시</td><td>68%<sup><a class="ref" href="#src-15">15</a></sup></td></tr>
+              <tr><td>Amazon</td><td>+39% (AWS)<sup><a class="ref" href="#src-16">16</a></sup></td><td>38.7%<sup><a class="ref" href="#src-16">16</a></sup></td><td>분기 값 없음</td></tr>
+              <tr><td>Meta</td><td>클라우드 사업 없음</td><td>—</td><td>104%<sup><a class="ref" href="#src-17">17</a></sup></td></tr>
+              <tr><td>Oracle</td><td>+121% (OCI)<sup><a class="ref" href="#src-18">18</a></sup></td><td>미공시</td><td>123%<sup><a class="ref" href="#src-18">18</a></sup></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="period muted">기간: 2026년 3분기(9월 30일 마감). Oracle은 8월 31일 마감 분기.</p>
+        <p class="muted">클라우드 영업이익률과 설비투자 ÷ 영업현금흐름은 공시 값으로 계산한 값.</p>
+      </div>
+    </div>
+    <h3>비교할 때 주의점</h3>
+    <div class="cards">
+      <div class="card">
+        <ul class="muted">
+          <li>클라우드 매출 범위가 다름: Google Cloud는 Workspace 포함, AWS는 인프라 중심, Oracle OCI는 인프라만.</li>
+          <li>설비투자는 각 회사가 공시한 유형자산 매입액이며, Meta는 금융리스를 뺀 값이다.</li>
+          <li>Meta는 클라우드 사업이 없지만 광고 사업과 AI 설비투자 규모가 겹쳐 비교에 넣었다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <section id="missing">
     <div class="sec-head"><span class="idx">!</span><h2>빠진 자료</h2></div>
-    <p class="summary">판단에 필요한 자료 6개가 없거나 확정되지 않았다.</p>
+    <p class="summary">판단에 필요한 자료 8개가 없거나 확정되지 않았다.</p>
     <h3>항목별 이유와 영향</h3>
     <div class="cards">
       <div class="card">
@@ -386,6 +422,8 @@
               <tr><td>광고 기술 시정 판결</td><td>판결 전</td><td>사업 분리 여부에 따라 Services 수익 구조가 달라질 수 있음</td></tr>
               <tr><td>10월 말 종가</td><td>출처마다 320.58과 279.84로 다름, 일별 자료와 맞는 279.84 사용</td><td>차트 10월 지점에 오차 가능</td></tr>
               <tr><td>4분기·연간 실적</td><td>발표 전</td><td>3분기까지로만 판단</td></tr>
+              <tr><td>Azure·OCI 클라우드 영업이익률</td><td>Microsoft·Oracle 모두 클라우드 부문 이익률을 공시하지 않음</td><td>클라우드 수익성 비교가 Google Cloud와 AWS 둘로 한정됨</td></tr>
+              <tr><td>Amazon 분기 설비투자</td><td>실적 발표에 분기 설비투자 금액이 없음</td><td>Amazon의 설비투자 ÷ 영업현금흐름을 같은 분기 기준으로 비교할 수 없음</td></tr>
             </tbody>
           </table>
         </div>
@@ -410,8 +448,12 @@
       <li id="src-12">PYMNTS — <a href="https://www.pymnts.com/cpi-posts/googles-gemini-faces-eu-copyright-scrutiny-over-use-of-news-content/">pymnts.com</a></li>
       <li id="src-13">Tech Insider — <a href="https://tech-insider.org/google-antitrust-appeal-doj-search-monopoly-2026/">tech-insider.org</a></li>
       <li id="src-14">Alphabet, 2025 회계연도 10-K — <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm">sec.gov</a></li>
+      <li id="src-15">Microsoft, FY2027 1분기 실적 발표 — <a href="https://www.microsoft.com/en-us/investor/earnings/fy-2027-q1/press-release-webcast">microsoft.com</a></li>
+      <li id="src-16">Amazon, 2026년 3분기 실적 발표 — <a href="https://aboutamazon.com/news/company-news/amazon-earnings-q3-2026-report">aboutamazon.com</a></li>
+      <li id="src-17">Meta, 2026년 3분기 실적 발표 — <a href="https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Third-Quarter-2026-Results/default.aspx">investor.atmeta.com</a></li>
+      <li id="src-18">Oracle, FY2027 1분기 실적 발표 — <a href="https://investor.oracle.com/investor-news/news-details/2026/Oracle-Announces-Q1-Results-Driven-by-Triple-Digit-Growth-in-Cloud-Infrastructure-Revenues/default.aspx">investor.oracle.com</a></li>
     </ol>
-    <p class="asof">작성 시점 2026-11-25 · 자료 기준일: 연간 실적 2025-12-31(회계연도 마감), 분기 실적 2026-09-30(3분기 마감), 주가 2026-11-16 종가, 뉴스 2026-11-16까지</p>
+    <p class="asof">작성 시점 2026-11-26 · 자료 기준일: 연간 실적 2025-12-31(회계연도 마감), 분기 실적 2026-09-30(3분기 마감), 경쟁사 분기 실적 2026-09-30(Oracle 2026-08-31), 주가 2026-11-16 종가, 뉴스 2026-11-16까지</p>
   </footer>
 </div>
 <script>
